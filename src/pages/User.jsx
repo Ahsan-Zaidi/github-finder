@@ -5,14 +5,17 @@ import Spinner from '../components/layout/Spinner';
 import GithubContext from "../context/github/GithubContext";
 
 const User = () => {
+    //Destructured data/functions from the context 
     const {getUser, user, loading} = useContext(GithubContext);
 
+    //Initialize params to get the correct user from browser
     const params = useParams();
 
     useEffect(() => {
         getUser(params.login)
     }, []);
 
+    //Destructured data from the user object needed in jsx
     const {
         name,
         type,
@@ -30,6 +33,7 @@ const User = () => {
         hireable,
     } = user
 
+    //Loading conditional for spinner component
     if (loading) {
         return <Spinner />
     }
@@ -85,6 +89,7 @@ const User = () => {
                             </div>
                         </div>
                         <div className='w-full rounded-lg shadow-md bg-base-100 stats text-white'>
+                            {/** Conditionals to render twitter location and blog dependant upon users information */}
                             {location && (
                                 <div className='stat'>
                                     <div className='stat-title text-md'>
@@ -131,7 +136,7 @@ const User = () => {
                     </div>
                 </div>
                 <div className='w-full py-5 mb-6 rounded-lg shadow-md bg-base-100 stats text-white'>
-
+                    {/**Follower Stats */}
                     <div className='stat'>
                         <div className='stat-figure text-secondary'>
                             <FaUsers className='text-3xl md:text-5xl' />
@@ -143,7 +148,7 @@ const User = () => {
                             {followers}
                         </div>
                     </div>
-
+                    {/**Following Stats */}
                     <div className='stat'>
                         <div className='stat-figure text-secondary'>
                             <FaUserFriends className='text-3xl md:text-5xl' />
@@ -155,7 +160,7 @@ const User = () => {
                             {following}
                         </div>
                     </div>
-
+                    {/**Repository stats */}
                     <div className='stat'>
                         <div className='stat-figure text-secondary'>
                             <FaCodepen className='text-3xl md:text-5xl' />
@@ -167,7 +172,7 @@ const User = () => {
                             {public_repos}
                         </div>
                     </div>
-
+                    {/**Gist Stats */}
                     <div className='stat'>
                         <div className='stat-figure text-secondary'>
                             <FaStore className='text-3xl md:text-5xl' />
@@ -185,4 +190,4 @@ const User = () => {
     )
 }
 
-export default User
+export default User;
