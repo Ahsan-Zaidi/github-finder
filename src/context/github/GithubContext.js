@@ -1,5 +1,5 @@
 import { createContext, useReducer } from "react";
-import githubReducer from "./GirhubReducer";
+import githubReducer from "./GithubReducer";
 
 const GithubContext = createContext();
 
@@ -36,6 +36,11 @@ export const GithubProvider = ({children}) => {
         })
     };
 
+    //Clear user results from state
+    const clearUsers = async () => dispatch({
+        type: 'CLEAR_USERS'
+    })
+
     //set Loading
     const setLoading = () => dispatch({type: 'SET_LOADING'})
 
@@ -44,6 +49,7 @@ export const GithubProvider = ({children}) => {
             users: state.users,
             loading: state.loading,
             searchUsers,
+            clearUsers,
         }}>
             {children}
         </GithubContext.Provider>
