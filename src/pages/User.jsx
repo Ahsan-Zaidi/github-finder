@@ -2,17 +2,20 @@ import { FaCodepen, FaStore, FaUserFriends, FaUsers } from 'react-icons/fa';
 import { useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import Spinner from '../components/layout/Spinner';
+import RepoList from '../components/repos/RepoList';
 import GithubContext from "../context/github/GithubContext";
 
 const User = () => {
     //Destructured data/functions from the context 
-    const {getUser, user, loading} = useContext(GithubContext);
+    const { getUser, user, loading, getUserRepos, repos } = useContext(GithubContext);
 
     //Initialize params to get the correct user from browser
     const params = useParams();
 
     useEffect(() => {
         getUser(params.login)
+        getUserRepos(params.login)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     //Destructured data from the user object needed in jsx
@@ -185,6 +188,9 @@ const User = () => {
                         </div>
                     </div>
                 </div>
+
+                {/**Repo List Component */}
+                <RepoList repos={repos} />
             </div>
         </>
     )

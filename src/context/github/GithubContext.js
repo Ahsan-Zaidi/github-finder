@@ -3,16 +3,20 @@ import githubReducer from "./GithubReducer";
 
 const GithubContext = createContext();
 
+//Enviorment variables reassigned values
 const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
 const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 
 export const GithubProvider = ({children}) => {
+    //initial state of data being passed through the context
     const initialState = {
         users: [],
         user: {},
+        repos: [],
         loading: false
     }
 
+    //destructured data from reducer
     const [state, dispatch] = useReducer(githubReducer, initialState);
 
     //Get search results
@@ -21,7 +25,7 @@ export const GithubProvider = ({children}) => {
 
         const params = new URLSearchParams({
             q: text
-        })
+        });
 
         const response = await fetch(`${GITHUB_URL}/search/users?${params}`, {
             headers: {
@@ -59,6 +63,29 @@ export const GithubProvider = ({children}) => {
         }
     };
 
+       //Get User repos
+       const getUserRepos = async (login) => {
+        setLoading();
+
+        const params = new URLSearchParams({
+            sort: 'created',
+            per_page: 10
+        });
+
+        const response = await fetch(`${GITHUB_URL}/users/${login}/repos?${params}`, {
+            headers: {
+                Authorization: `token ${GITHUB_TOKEN}`
+            }
+        });
+
+        const data = await response.json()
+
+        dispatch({
+            type: 'GET_REPOS',
+            payload: data,
+        })
+    };
+
     //Clear user results from state
     const clearUsers = async () => dispatch({
         type: 'CLEAR_USERS'
@@ -67,14 +94,17 @@ export const GithubProvider = ({children}) => {
     //set Loading
     const setLoading = () => dispatch({type: 'SET_LOADING'})
 
+    //functions and data being passed through context provider
     return (
         <GithubContext.Provider value={{
             users: state.users,
             loading: state.loading,
             user: state.user,
+            repos: state.repos,
             searchUsers,
             clearUsers,
             getUser,
+            getUserRepos,
         }}>
             {children}
         </GithubContext.Provider>
