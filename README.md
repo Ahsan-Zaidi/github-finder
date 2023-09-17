@@ -19,7 +19,7 @@
 
 ✋ [GitHub Repository] https://github.com/Ahsan-Zaidi/github-finder
 
-✋ [Deployed App] 
+✋ [Deployed App] https://github-finder-eight-theta.vercel.app/
 
 ## ✋User Story
 
