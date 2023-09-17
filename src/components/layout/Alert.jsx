@@ -20,9 +20,9 @@ const Alert = () => {
                     ></path>
                 </svg>
             )}
-            <div className="flex-1 text-base font-semibold leading-7 text-white">
-                <strong>{alert.msg}</strong>
-            </div>
+            <strong className="flex-1 text-base font-semibold leading-7 text-white">
+                {alert.msg}
+            </strong>
         </p>
     )
 }
